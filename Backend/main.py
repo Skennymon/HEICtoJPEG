@@ -1,5 +1,6 @@
 from typing import Union, List
 from fastapi import FastAPI, File, UploadFile
+from fastapi.responses import StreamingResponse
 from PIL import Image
 from pillow_heif import register_heif_opener
 import io
@@ -15,21 +16,36 @@ def read_root():
     return {"Hello": "World"}
 
 @app.post("/upload-and-convert-to-PNG")
-def convert_to_PNG(files: List[UploadFile] = File(...)):
-    convertedFiles = []
-    for file in files:
-        if file.lower().endswith(".heic"):
-            heif_file = pillow_heif.read_heif(files)
-            image = Image.frombytes(
-                heif_file.mode,
-                heif_file.size,
-                heif_file.data,
-                "raw",
-            )
-            new_filename = file.splittext(file)[0] + ".png"
-            convertedFiles.append(image.save(new_filename))
+async def convert_to_png(files: List[UploadFile] = File(...)):
+    zip_buffer = io.BytesIO()
 
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for file in files:
+            if file.filename.lower().endswith(".heic"):
+                # Read file content
+                contents = await file.read()
 
-    
-    return {files}
+                # Decode HEIC
+                heif_file = pillow_heif.read_heif(io.BytesIO(contents))
+                image = Image.frombytes(
+                    heif_file.mode,
+                    heif_file.size,
+                    heif_file.data,
+                    "raw",
+                )
+
+                # Save PNG to memory
+                img_bytes = io.BytesIO()
+                image.save(img_bytes, format="PNG")
+                img_bytes.seek(0)
+
+                # Add to ZIP
+                new_filename = file.filename.rsplit(".", 1)[0] + ".png"
+                zipf.writestr(new_filename, img_bytes.read())
+
+    zip_buffer.seek(0)
+
+    return StreamingResponse(zip_buffer, media_type="application/x-zip-compressed", headers={
+        "Content-Disposition": "attachment; filename=converted_images.zip"
+    })
 
