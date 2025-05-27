@@ -6,10 +6,27 @@ from pillow_heif import register_heif_opener
 import io
 import zipfile
 import pillow_heif
+from fastapi.middleware.cors import CORSMiddleware
 import os
 
 app = FastAPI()
 register_heif_opener()
+
+origins = [
+    "http://localhost.tiangolo.com",
+    "https://localhost.tiangolo.com",
+    "http://localhost",
+    "http://localhost:8080",
+    "http://localhost:5173",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
