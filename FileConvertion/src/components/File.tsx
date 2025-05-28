@@ -15,7 +15,7 @@ export default function File({ fileName, files, setFiles, file } : FileProps) {
     }
 
     return (
-        <div className="flex justify-between items-center w-[15rem] border p-2 rounded-md">
+        <div className="flex justify-between items-center w-full border p-2 rounded-md">
             <p>{fileName}</p>
             <button onClick={deleteFile}>X</button>
         </div>

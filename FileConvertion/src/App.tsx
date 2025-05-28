@@ -7,7 +7,8 @@ function App() {
 
   const[files, setFiles] = useState<File[]>([])
   const[isLoading, setIsLoading] = useState<boolean>(false)
-  const[convertedFiles, setConvertedFiles] = useState<Blob | null | MediaSource>(null);
+  const[convertedFiles, setConvertedFiles] = useState<Blob | null | MediaSource>(null)
+  const[converTo, setConvertTo] = useState<string>("PNG")
 
   const onFileChange = (e) => {
     if (!e.target.files) return;
@@ -87,18 +88,29 @@ function App() {
         <input className="border rounded-md h-[2rem]" type="file" multiple onChange={onFileChange}/>
       </div>
 
-      <div className="flex flex-col items-center justify-center mt-7">
-        {files.map((file, index) => (
-          <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files}/>
-        ))}
-        <div className="flex items-center justify-between mt-2 gap-2">
-          <button className="border rounded-md p-2" onClick={handleConvert}>Convert</button>
+      <section className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center mt-7 border w-[50%] h-[20rem] p-2">
+          {files.map((file, index) => (
+            <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files}/>
+          ))}
+          <div className="flex items-center justify-between mt-2 gap-2">
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <select onChange={(e) => setConvertTo(e.target.value)}>
+            <option value="PNG">PNG</option>
+            <option value="JPEG">JPEG</option>
+            <option value="WEBP">WEBP</option>
+          </select>
           {isLoading && <span>Converting...</span>}
+          {files && <button className="mt-2 border rounded-md p-2" onClick={handleConvert}>Convert</button>}
           {convertedFiles !== null &&
-            <button className="bg-green-400 text-white" onClick={handleDownload}>Download</button>
+            <button className="bg-green-400 text-white rounded-md" onClick={handleDownload}>Download</button>
           }
         </div>
-      </div>
+
+      </section>
 
       
 
