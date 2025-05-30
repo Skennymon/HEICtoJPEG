@@ -55,17 +55,11 @@ async def convert_to_png(files: List[UploadFile] = File(...), convertTo: str | N
                     "raw",
                 )
 
-                # Save PNG to memory
-                if convertTo == "PNG":
-                    img_bytes = io.BytesIO()
-                    image.save(img_bytes, format="PNG")
-                    img_bytes.seek(0)
-                elif convertTo == "JPEG":
-                    img_bytes = io.BytesIO()
-                    image.save(img_bytes, format="JPEG")
-                    img_bytes.seek(0)
-                    
-
+                # Save image to memory
+                img_bytes = io.BytesIO()
+                image.save(img_bytes, format=convertTo)
+                img_bytes.seek(0)
+                
                 # Add to ZIP
                 new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
                 zipf.writestr(new_filename, img_bytes.read())
