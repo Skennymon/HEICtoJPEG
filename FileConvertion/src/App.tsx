@@ -79,7 +79,8 @@ function App() {
         <p className="text-neutral-400 text-2xl">Convert photos/images from your iphone to a format your computer will not complain about :D.</p>
       </div>
 
-      <div className="flex items-center justify-center mt-7">
+      <div className="flex flex-col items-center justify-center mt-7">
+        <h2>Select file(s):</h2>
         <input className="border rounded-md h-[2rem]" type="file" multiple onChange={onFileChange}/>
       </div>
 
