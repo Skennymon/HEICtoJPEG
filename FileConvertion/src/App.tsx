@@ -84,7 +84,7 @@ function App() {
       </div>
 
       <section className="flex flex-col items-center justify-center">
-        <div className="flex flex-col items-center mt-7 border w-[50%] h-[20rem] p-2">
+        <div className="flex flex-col items-center mt-7 border w-[50%] min-h-[20rem] p-2">
           {files.map((file, index) => (
             <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files}/>
           ))}
