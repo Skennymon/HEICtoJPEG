@@ -8,7 +8,7 @@ function App() {
   const[files, setFiles] = useState<File[]>([])
   const[isLoading, setIsLoading] = useState<boolean>(false)
   const[convertedFiles, setConvertedFiles] = useState<Blob | null | MediaSource>(null)
-  const[converTo, setConvertTo] = useState<string>("PNG")
+  const[convertTo, setConvertTo] = useState<string>("PNG")
 
   const onFileChange = (e) => {
     if (!e.target.files) return;
@@ -27,7 +27,7 @@ function App() {
     console.log(...formData)
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/upload-and-convert-to-PNG", {
+      const response = await fetch(`http://127.0.0.1:8000/upload-and-convert-to/${convertTo}`, {
         method: 'POST',
         headers: {
           'accept': 'application/json',
@@ -80,8 +80,8 @@ function App() {
       <Navbar/>
 
       <div className="h-[20rem] border bg-gradient-to-bl from-gray-900 to-gray-400 flex items-center justify-center flex-col">
-        <h2 className="text-white text-4xl">HEIC to JPEG Converter</h2>
-        <p className="text-neutral-400 text-2xl">Convert photos from your iphone to a format your computer will not complain about :D.</p>
+        <h2 className="text-white text-4xl">HEIC File Converter</h2>
+        <p className="text-neutral-400 text-2xl">Convert photos/images from your iphone to a format your computer will not complain about :D.</p>
       </div>
 
       <div className="flex items-center justify-center mt-7">

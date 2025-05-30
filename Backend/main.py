@@ -32,8 +32,12 @@ app.add_middleware(
 def read_root():
     return {"Hello": "World"}
 
-@app.post("/upload-and-convert-to-PNG")
-async def convert_to_png(files: List[UploadFile] = File(...)):
+@app.post("/upload-and-convert-to/{convertTo}")
+async def convert_to_png(files: List[UploadFile] = File(...), convertTo: str | None = None):
+    
+    if convertTo is None:
+        convertTo = "PNG"
+
     zip_buffer = io.BytesIO()
 
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
@@ -52,12 +56,18 @@ async def convert_to_png(files: List[UploadFile] = File(...)):
                 )
 
                 # Save PNG to memory
-                img_bytes = io.BytesIO()
-                image.save(img_bytes, format="PNG")
-                img_bytes.seek(0)
+                if convertTo == "PNG":
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format="PNG")
+                    img_bytes.seek(0)
+                elif convertTo == "JPEG":
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format="JPEG")
+                    img_bytes.seek(0)
+                    
 
                 # Add to ZIP
-                new_filename = file.filename.rsplit(".", 1)[0] + ".png"
+                new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
                 zipf.writestr(new_filename, img_bytes.read())
 
     zip_buffer.seek(0)
