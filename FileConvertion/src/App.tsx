@@ -80,7 +80,7 @@ function App() {
       <Navbar/>
 
       <div className="h-[20rem] border bg-gradient-to-bl from-gray-900 to-gray-400 flex items-center justify-center flex-col">
-        <h2 className="text-white md:text-4xl text-3xl">HEIC/HEIF File Converter</h2>
+        <h2 className="text-white md:text-4xl text-3xl">Image File Converter</h2>
         <p className="text-neutral-400 text-2xl">Convert photos/images from your iphone to a format your computer will not complain about :D.</p>
       </div>
 
