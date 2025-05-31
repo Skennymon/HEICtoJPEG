@@ -1,5 +1,5 @@
 from typing import Union, List
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import StreamingResponse
 from PIL import Image
 from pillow_heif import register_heif_opener
@@ -42,27 +42,44 @@ async def convert_to_png(files: List[UploadFile] = File(...), convertTo: str | N
 
     with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
         for file in files:
-            if file.filename.lower().endswith(".heic"):
-                # Read file content
-                contents = await file.read()
+            try:
+                if file.filename.lower().endswith(".heic"):
+                    # Read file content
+                    contents = await file.read()
 
-                # Decode HEIC
-                heif_file = pillow_heif.read_heif(io.BytesIO(contents))
-                image = Image.frombytes(
-                    heif_file.mode,
-                    heif_file.size,
-                    heif_file.data,
-                    "raw",
-                )
+                    # Decode HEIC
+                    heif_file = pillow_heif.read_heif(io.BytesIO(contents))
+                    image = Image.frombytes(
+                        heif_file.mode,
+                        heif_file.size,
+                        heif_file.data,
+                        "raw",
+                    )
 
-                # Save image to memory
-                img_bytes = io.BytesIO()
-                image.save(img_bytes, format=convertTo)
-                img_bytes.seek(0)
-                
-                # Add to ZIP
-                new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
-                zipf.writestr(new_filename, img_bytes.read())
+                    # Save image to memory
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format=convertTo)
+                    img_bytes.seek(0)
+                    
+                    # Add to ZIP
+                    new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
+                    zipf.writestr(new_filename, img_bytes.read())
+                else:
+                    contents = await file.read()
+                    image = Image.open(io.BytesIO(contents))
+                    
+                    if convertTo.lower() in ["jpeg", "jpg"] and image.mode in ("RGBA", "LA", "P"):
+                        image = image.convert("RGB")
+                    
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format=convertTo)
+                    img_bytes.seek(0)
+
+                    new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
+                    zipf.writestr(new_filename, img_bytes.read())
+            except:
+                raise HTTPException(status_code=400, detail="Unsupported File")
+
 
     zip_buffer.seek(0)
 

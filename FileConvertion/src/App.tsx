@@ -2,6 +2,7 @@ import './App.css'
 import Navbar from './components/Navbar'
 import File from './components/File'
 import { useState } from 'react'
+import JSZip from 'jszip'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
   }
 
   const handleConvert = async () => {
+    setConvertedFiles(null)
     setIsLoading(true)
     const formData = new FormData();
     files.forEach((file) => {
@@ -26,6 +28,11 @@ function App() {
     });
 
     console.log(...formData)
+
+    if(formData.entries().next().done) {
+      setError(true)
+      return
+    }
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/upload-and-convert-to/${convertTo}`, {
@@ -45,7 +52,7 @@ function App() {
       const blob = await response.blob()
       setConvertedFiles(blob)
       setIsLoading(false)
-      setError(false)
+      setError(blob.size === 0)
 
     }
     catch(error) {
@@ -53,8 +60,6 @@ function App() {
       setIsLoading(false)
     }
 
-    setIsLoading(false)
-    setError(false)
   }
 
   function handleDownload() {
@@ -85,9 +90,9 @@ function App() {
       </div>
 
       <section className="flex flex-col items-center justify-center p-2">
-        <div className="flex flex-col items-center mt-7 border w-[50%] min-h-[20rem] p-2">
+        <div className="flex flex-col items-center mt-7 border w-[50%] min-h-[20rem] p-2 rounded-3xl">
           {files.map((file, index) => (
-            <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files}/>
+            <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files} isConverting={isLoading}/>
           ))}
           <div className="flex items-center justify-between mt-2 gap-2">
           </div>
@@ -102,20 +107,18 @@ function App() {
             <option value="TIFF">TIFF</option>
             <option value="WEBP">WEBP</option>
             <option value="HEIF">HEIF</option>
-            <option value="AVIF">AVIF</option>
             <option value="ICO">ICO</option>
             <option value="PPM">PPM</option>
             <option value="PDF">PDF</option>
             <option value="EPS">EPS</option>
             <option value="TGA">TGA</option>
           </select>
-          {isLoading && <span>Converting...</span>}
           {files && <button className="mt-2 border rounded-md p-2" onClick={handleConvert}>Convert</button>}
           {convertedFiles !== null &&
             <button className="bg-green-400 text-white rounded-md" onClick={handleDownload}>Download</button>
           }
         </div>
-        {error && <p className="text-red-500">Either you have a file that isn't a HEIC, or the server is cooked.</p>}
+        {error && <p className="text-red-500">Either you have a file that isn't supported, or the server is cooked.</p>}
       </section>
 
       <section className="flex flex-col items-center justify-center mt-2 p-2 gap-7">
