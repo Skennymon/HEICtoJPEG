@@ -75,7 +75,7 @@ function App() {
       <Navbar/>
 
       <div className="h-[20rem] border bg-gradient-to-bl from-gray-900 to-gray-400 flex items-center justify-center flex-col">
-        <h2 className="text-white text-4xl">HEIC/HEIF File Converter</h2>
+        <h2 className="text-white md:text-4xl text-3xl">HEIC/HEIF File Converter</h2>
         <p className="text-neutral-400 text-2xl">Convert photos/images from your iphone to a format your computer will not complain about :D.</p>
       </div>
 
@@ -84,7 +84,7 @@ function App() {
         <input className="border rounded-md h-[2rem]" type="file" multiple onChange={onFileChange}/>
       </div>
 
-      <section className="flex flex-col items-center justify-center">
+      <section className="flex flex-col items-center justify-center p-2">
         <div className="flex flex-col items-center mt-7 border w-[50%] min-h-[20rem] p-2">
           {files.map((file, index) => (
             <File fileName={file.name} key={index} file={file} setFiles={setFiles} files={files}/>
@@ -116,6 +116,11 @@ function App() {
           }
         </div>
         {error && <p className="text-red-500">Either you have a file that isn't a HEIC, or the server is cooked.</p>}
+      </section>
+
+      <section className="flex flex-col items-center justify-center mt-2 p-2 gap-7">
+          <h2 className="font-bold text-4xl">How it works</h2>
+          <img src="/HowItWorks.png" className="md:w-[50%] w-[75%]" />
       </section>
 
       
