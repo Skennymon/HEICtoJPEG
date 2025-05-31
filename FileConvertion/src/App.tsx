@@ -10,7 +10,8 @@ function App() {
   const[isLoading, setIsLoading] = useState<boolean>(false)
   const[convertedFiles, setConvertedFiles] = useState<Blob | null | MediaSource>(null)
   const[convertTo, setConvertTo] = useState<string>("PNG")
-  const[error, setError] = useState<boolean>(false)
+  const[error, setError] = useState<string | null>(null)
+
 
   const onFileChange = (e) => {
     if (!e.target.files) return;
@@ -20,6 +21,12 @@ function App() {
   }
 
   const handleConvert = async () => {
+    
+    if(files.length > 100) {
+      setError("You can only upload up to 100 files at a time.")
+      return
+    }
+    setError(null)
     setConvertedFiles(null)
     setIsLoading(true)
     const formData = new FormData();
@@ -30,7 +37,7 @@ function App() {
     console.log(...formData)
 
     if(formData.entries().next().done) {
-      setError(true)
+      setError("You gotta put some files in to convert them.")
       return
     }
 
@@ -45,14 +52,17 @@ function App() {
 
       if (!response.ok) {
         setIsLoading(false)
-        setError(true)
+        setError("Either you tried to convert an unsupported file, or the server is cooked.")
         throw new Error("Something went wrong");
       }
 
       const blob = await response.blob()
       setConvertedFiles(blob)
       setIsLoading(false)
-      setError(blob.size === 0)
+
+      if(blob.size === 0) {
+        setError("Error cus you probably tried to convert an unsupported file!")
+      }
 
     }
     catch(error) {
@@ -118,7 +128,7 @@ function App() {
             <button className="bg-green-400 text-white rounded-md" onClick={handleDownload}>Download</button>
           }
         </div>
-        {error && <p className="text-red-500">Either you have a file that isn't supported, or the server is cooked.</p>}
+        {error !== null && <p className="text-red-500">{error}</p>}
       </section>
 
       <section className="flex flex-col items-center justify-center mt-2 p-2 gap-7">
