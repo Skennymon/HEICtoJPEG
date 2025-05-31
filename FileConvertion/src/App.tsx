@@ -124,6 +124,9 @@ function App() {
       <section className="flex flex-col items-center justify-center mt-2 p-2 gap-7">
           <h2 className="font-bold text-4xl">How it works</h2>
           <img src="/HowItWorks.png" className="md:w-[50%] w-[75%]" />
+          
+          <p>If you actually want to know how it works and how I built it, <span><a className="underline text-blue-400 hover:text-blue-200" href="https://github.com/Skennymon/HEICtoJPEG.git/" target="_blank">the writeup can be found here.</a></span></p>
+          
       </section>
 
       
