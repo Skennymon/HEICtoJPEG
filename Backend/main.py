@@ -7,9 +7,11 @@ import io
 import zipfile
 import pillow_heif
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
 import os
 
 app = FastAPI()
+handler = Mangum(app)
 register_heif_opener()
 
 origins = [
@@ -26,7 +28,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"Hello": "World",}
 
 @app.post("/upload-and-convert-to/{convertTo}")
 async def convert_to_png(files: List[UploadFile] = File(...), convertTo: str | None = None):
