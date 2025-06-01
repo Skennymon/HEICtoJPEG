@@ -21,8 +21,8 @@ function App() {
 
   const handleConvert = async () => {
     
-    if(files.length > 100) {
-      setError("You can only upload up to 100 files at a time.")
+    if(files.length > 20) {
+      setError("You can only upload up to 20 files at a time.")
       return
     }
     setError(null)
