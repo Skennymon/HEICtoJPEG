@@ -2,7 +2,6 @@ import './App.css'
 import Navbar from './components/Navbar'
 import File from './components/File'
 import { useState } from 'react'
-import JSZip from 'jszip'
 
 function App() {
 
