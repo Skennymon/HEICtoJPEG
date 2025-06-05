@@ -1,6 +1,7 @@
 # **Image File Converter**
 Image file converter that lets you convert image files from one format to another! Supports various image formats like PNG, JPEG, WEBP, etc.
 
+## Features
 -📷 Convert Image files (including HEIC/HEIF) to any standard file format that 99% will want!
 - 🤐 Get all of your converted images in a zipped up file.
 - 🗃️ Convert multiple images at once at the same time.
