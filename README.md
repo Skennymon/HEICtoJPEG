@@ -19,14 +19,30 @@ The second reason is because I thought this would be a good opporutunity to lear
 file convertions without a limit, but I don't want to be thousands of dollars in debt from AWS lmao. Although, it's very easy to fork this for yourself and host it on your own.
 
 # How to Host Yourself
-`git clone https://github.com/Skennymon/HEICtoJPEG.git`\
-`cd FileConvertion`\
-`npm run dev`\
-`cd ../Backend`\
-`python -m venv .venv`\
-`.venv/Scripts/Activate.ps1`\
-`pip install -r requirements.txt`\
-`uvicorn main:app` or `fastapi dev main.py`
+```bash
+git clone https://github.com/Skennymon/HEICtoJPEG.git
+```
+```bash
+cd FileConvertion
+```
+```bash
+npm run dev
+```
+```bash
+cd ../Backend
+```
+```bash
+python -m venv .venv
+```
+```bash
+.venv/Scripts/Activate.ps1
+```
+```bash
+pip install -r requirements.txt
+```
+```bash
+uvicorn main:app` or `fastapi dev main.py
+```
 
 # How I Built It
 TBC...
