@@ -48,4 +48,4 @@ uvicorn main:app` or `fastapi dev main.py
 The tech stack is ReactJS with Vite Bundler and FastAPI as the backend. The python library doing the file converting is called pillow/pillow-heif (I'm not smart enough to figure out file convertion from scratch by myself lol). I'm planning on using AWS EC2 Instance in conjunction with API Gateway to host the backend and I haven't decided how I want to deploy the frontend just yet.
 
 # Little Insight on how the Pillow Library Works
-To be continued...
+I stumbled across this neat library researching how I could convert image files. 
