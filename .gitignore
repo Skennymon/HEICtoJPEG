@@ -31,3 +31,5 @@ pnpm-debug.log*
 
 # Optional: Coverage directory if using testing tools like Vitest or Jest
 coverage/
+
+lib
