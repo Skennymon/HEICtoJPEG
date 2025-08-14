@@ -12,7 +12,7 @@ function App() {
   const[error, setError] = useState<string | null>(null)
 
 
-  const onFileChange = (e) => {
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
     const newFiles: File[] = Array.from(e.target.files);
