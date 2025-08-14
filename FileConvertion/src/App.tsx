@@ -94,7 +94,7 @@ function App() {
       </div>
 
       <div className="flex flex-col items-center justify-center mt-7 p-7">
-        <h2 className="text-red-500 text-2xl">If you're using the deployed version of this website, their is a very high chance the convertion will take a while because I&apos;m using the free tier for Render (I&apos;m broke I&apos;m sorry). They&apos;re cringe as they turn off my FastAPI instance every 15 minutes of inactivity and you have to wait for it to restart. Even then, it&apos;s still pretty slow because I suspect it&apos;s because the free tier only gives the instance 512MB of memory. If you want max speed, please host this site yourself (it&apos;s ALOT faster I promise) and I&apos;ve even gave the courtesy of giving instructions on how to host it locally on your own on the github repo hehe.</h2>
+        <h2 className="text-red-500 text-2xl">If you're using the deployed version of this website, their is a very high chance the convertion will take a while because I&apos;m using the free tier for Render (I&apos;m broke I&apos;m sorry). They&apos;re cringe as they turn off my FastAPI instance every 15 minutes of inactivity and you have to wait for it to restart. Even then, it&apos;s still pretty slow because I suspect it&apos;s because the free tier only gives the instance 512MB and only of memory "0.1 CPU" 🗿. If you want max speed, please host this site yourself (it&apos;s ALOT faster I promise) and I&apos;ve even gave the courtesy of giving instructions on how to host it locally on your own on the github repo hehe.</h2>
         <h2>Select file(s):</h2>
         <input className="border rounded-md h-[2rem]" type="file" multiple onChange={onFileChange}/>
       </div>
