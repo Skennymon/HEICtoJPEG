@@ -1,5 +1,6 @@
 # **Image File Converter**
 Image file converter that lets you convert image files from one format to another! Supports various image formats like PNG, JPEG, WEBP, etc.
+## This is the Deployed Repository. If you intend to host it yourself, please clone it from this repo instead https://github.com/Forged-Iron/HEICtoJPEG-LocalHost as their are some changes.
 
 ## Features
 - 📷 Convert Image files (including HEIC/HEIF) to any standard file format that 99% will want!
@@ -18,7 +19,6 @@ So I essentially said screw it and decided to make one myself.
 The second reason is because I thought this would be a good opporutunity to learn more backend stuff while also learning how to use AWS. As of now, I managed to get a EC2 Instance loaded up and I'm still trying to figure out how to use API Gateway so that it doesn't get spammed to death. Yes, I know the point of this project was for infinite
 file convertions without a limit, but I don't want to be thousands of dollars in debt from AWS lmao. Although, it's very easy to fork this for yourself and host it on your own.
 
-## This is the Deployed Repository. If you intend to host it yourself, please clone it from this repo instead https://github.com/Forged-Iron/HEICtoJPEG-LocalHost as their are some changes.
 
 # How to Host Yourself
 ```bash
