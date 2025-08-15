@@ -181,16 +181,16 @@ if file.filename.lower().endswith(".heic"):
 ```
 It first checks if the current file is in .heic format and if it is, the program reads the binary file content and puts it into contents. Then we wrap the raw bytes in a file-like object where then Pillow decodes the HEIC file into a intermediate Python object (HeifImage) that contains, mode ("RGB", "RGBA"), size (width, height), and uncompressed raw pixel data. Then, Image.fromBytes(heif_file.mode, heif_file.size, heif_file.data, "raw",) creates a Pillow Image that interprets each pixel pixel in RGB, keeps the original files width and height, heif_file.data that contains the actual pixel data in memory, and "raw" which specifies the data is raw/uncompressed.
 ```python
-    # Save image to memory
-    img_bytes = io.BytesIO()
-    image.save(img_bytes, format=convertTo)
-    img_bytes.seek(0)
+# Save image to memory
+img_bytes = io.BytesIO()
+image.save(img_bytes, format=convertTo)
+img_bytes.seek(0)
 ```
 In essence, this just saves the image into memory in whatever format the user specified earlier. The interesting part is img_bytes.seek(0) which moves the internal pointer to the start of the buffer as whenever we write something, it's at the end of the buffer.
 ```python
-    # Add to ZIP
-    new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
-    zipf.writestr(new_filename, img_bytes.read())
+# Add to ZIP
+new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
+zipf.writestr(new_filename, img_bytes.read())
 ```
 This adds the converted file into a zip in which we send back to the user. the
 ```python
