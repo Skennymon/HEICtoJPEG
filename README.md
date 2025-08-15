@@ -55,7 +55,62 @@ I stumbled across this neat library researching how I could convert image files.
 # How I Programmed the Convertion
 The file convertion is all under one function at the route /upload-and-convert-to/{convertTo}, and I was originally planning to split it into two functions (because convertion for HEIC Files is a little bit different from every other format). But I decided to just put it under one function because it wasn't so different to the point that it would matter. 
 
-![alt text](image.png)
+```python
+@app.post("/upload-and-convert-to/{convertTo}")
+async def convert_to_png(files: List[UploadFile] = File(...), convertTo: str | None = None):
+    
+    if convertTo is None:
+        convertTo = "PNG"
+
+    zip_buffer = io.BytesIO()
+
+    with zipfile.ZipFile(zip_buffer, "w", zipfile.ZIP_DEFLATED) as zipf:
+        for file in files:
+            try:
+                if file.filename.lower().endswith(".heic"):
+                    # Read file content
+                    contents = await file.read()
+
+                    # Decode HEIC
+                    heif_file = pillow_heif.read_heif(io.BytesIO(contents))
+                    image = Image.frombytes(
+                        heif_file.mode,
+                        heif_file.size,
+                        heif_file.data,
+                        "raw",
+                    )
+
+                    # Save image to memory
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format=convertTo)
+                    img_bytes.seek(0)
+                    
+                    # Add to ZIP
+                    new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
+                    zipf.writestr(new_filename, img_bytes.read())
+                else:
+                    contents = await file.read()
+                    image = Image.open(io.BytesIO(contents))
+                    
+                    if convertTo.lower() in ["jpeg", "jpg"] and image.mode in ("RGBA", "LA", "P"):
+                        image = image.convert("RGB")
+                    
+                    img_bytes = io.BytesIO()
+                    image.save(img_bytes, format=convertTo)
+                    img_bytes.seek(0)
+
+                    new_filename = file.filename.rsplit(".", 1)[0] + "." + convertTo
+                    zipf.writestr(new_filename, img_bytes.read())
+            except:
+                raise HTTPException(status_code=400, detail="Unsupported File")
+
+
+    zip_buffer.seek(0)
+
+    return StreamingResponse(zip_buffer, media_type="application/x-zip-compressed", headers={
+        "Content-Disposition": "attachment; filename=converted_images.zip"
+    })
+```
 
 The first couple lines of the function are pretty straight forward.
 
