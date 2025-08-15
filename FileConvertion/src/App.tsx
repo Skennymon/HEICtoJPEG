@@ -109,7 +109,7 @@ function App() {
           cringe as they turn off my FastAPI instance every 15 minutes of
           inactivity and you have to wait for it to restart. Even then,
           it&apos;s still pretty slow because I suspect it&apos;s because the
-          free tier only gives the instance 512MB and only of memory "0.1 CPU"
+          free tier only gives the instance 512MB of memory and only "0.1 CPU"
           🗿. If you want max speed, please host this site yourself (it&apos;s
           ALOT faster I promise) and I&apos;ve even gave the courtesy of giving
           instructions on how to host it locally on your own on the github repo
