@@ -228,3 +228,6 @@ return StreamingResponse(zip_buffer, media_type="application/x-zip-compressed", 
 })
 ```
 After we looped and converted every file, the backend sends back a compressed zip file back to the frontend with the name "converted_images.zip"
+
+# Final Thoughts 8/18/2025
+Writing this README took me way longer than I would've liked. It took so long because I unexpectedly got a internship offer from RCC (Responsible Computing Club & SJSU) to work for a company called "Inclusive World" to help them build their website. And because of that I sort of forgot about it. Also a little update on my AWS endeavors, I did manage to successfully spin of an EC2 Instance with NGINX and was able to host it, however, EC2 Instances can get pretty costly so I shut the lid on that one. I tried AWS Lambda, but for some reason it just refused to work so I shut the lid on that one too because at that point I was about done with this project. So I just hosted the frontend on Vercel and the backend on Render which was very easy. Not to say that AWS is necessarily bad, but setting up can be a nightmare for people who are just learning it. Anyway, I'm pretty proud of what I've accomplished here and now I have something I can use to convert those damn HEIC files in bulk and with unlimited use AHAHAHAHA. 
